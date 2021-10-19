@@ -93,10 +93,7 @@ if (!require("viridis")) {
 
 ##############################################################
 # Data Sources
-#   nyc Health data
-#   get out data
-# get NYC covid data based on Modified Zip code
-# First get ZCTA (zip code) to MODZCTA data:
+
 
 
 app_data <- read.csv(url("https://data.cityofnewyork.us/api/views/8gpu-s594/rows.csv?accessType=DOWNLOAD") )
@@ -321,43 +318,47 @@ body <- dashboardBody(
 
 .box.box-solid.box-primary>.box-header {
   color:#fff;
-  background:#F0F8FF
+  background:#D6EAF8
                     }
 
 .box.box-solid.box-primary{
-border-bottom-color:#666666;
-border-left-color:#666666;
-border-right-color:#666666;
-border-top-color:#666666;
+border-bottom-color:#154360;
+border-left-color:#154360;
+border-right-color:#154360;
+border-top-color:#154360;
 }
 
 .skin-black .main-sidebar {
-background-color: #1E90FF;
+background-color: #154360;
 }
 ")),
   
   
   
   tabItems(
-    # ------------------ Home ----------------------------------------------------------------
+    # ------------------ Introduction ----------------------------------------------------------------
     
-    tabItem(tabName = "Home", fluidPage(
+    tabItem(tabName = "Introduction", fluidPage(
       
       fluidRow(box(width = 15, title = "Introduction", status = "primary",
-                   solidHeader = TRUE, h3("Application for State Aid"),
-                   h4("Jennings-Dobbs Emily, Liu Chuyang, Sun, Jialiang, Zhang Ziyong"),
-                   h5("to be filled"),
-                   h5("to be filled", strong("Retail, Service, Food and Beverage, Entertainment")))),
-      fluidRow(box(width = 15, title = "Targeted User", status = "primary", solidHeader=TRUE,
-                   h5("to be filled"))),
+                   solidHeader = TRUE, h3("An Interactive View of Applications for State Aid"),
+                   h4("An Interface for Determining The Status of NYC Educational Facilities"),
+                   h6("Created by : Emily Jennings-Dobbs, Chuyang Liu, Jialiang Sun, and Ziyong Zhang"),
+                   h6("Intended for use in:", strong("Education, goverment/legislative activity")))),
+      fluidRow(box(width = 15, title = "Intended Purpose", status = "primary", solidHeader=TRUE,
+                   h5("General Applications:"),
+                   h6("This app can display applications for aid for all educational facilities funded by the state in the NYC area. "),
+                   h6( "It can be used to visualise the disruption and possible long term consequences of local or global disasters to the maitenance of educational facilities. This can help us to understand where aid is needed most geographically in the process of recovering from unpredictable and/or unexpected events."),
+                   h5("In Regards to COVID:"),
+                   h6("During COVID a lot of schools were left empty and abandoned for months on end. Without constant maitenance and monitoring, facilities are bound to find themselves in disrepair. With this tool we can monitor where the worst of the damage was found and take a look at how long it's taking for the aid applications to return to a normal rate. "))),
       fluidRow(box(width = 15, title = "How to Use The App", status = "primary",
                    solidHeader = TRUE,
-                   h5("The application is divided into 3 separate tabs"),
+                   h5("The application is divided into 4 separate tabs"),
                    tags$div(tags$ul(
                      tags$li("The", strong("first"), "tab: Introduction"),
-                     tags$li("The", strong("second"), "tab: The detailed ZIP code map shows the extent of Covid 19 outbreak in NYC. It provided key information including: confirmed cases, infection rate, number of business that are closed in the neighborhood"),
-                     tags$li("The", strong("third"), "to be filled"),
-
+                     tags$li("The", strong("second"), "tab: Two maps of NYC that can be used to compare details of all state applications for aid filed in a given time period."),
+                     tags$li("The", strong("third"), "tab: An interactive plot of frequency data"),
+                     tags$li("The", strong("fourth"), "tab: Acknowledgements and other information")
                    ))
       ))
     )), # end of home 
@@ -366,11 +367,11 @@ background-color: #1E90FF;
             
     ),
     
-    #------------------New Business----------------------------
-    tabItem(tabName = "New_Business", fluidPage(
+    #------------------Plot----------------------------
+    tabItem(tabName = "Plot", fluidPage(
       
       # App title ----
-      titlePanel("New Business"),
+      titlePanel("Plot"),
       
       # Sidebar layout with input and output definitions ----
       sidebarLayout(
@@ -405,45 +406,47 @@ background-color: #1E90FF;
     
     
     
-    # ------------------ Appendix --------------------------------
-    tabItem(tabName = "Appendix", fluidPage( 
+    # ------------------ Acknowledgements --------------------------------
+    tabItem(tabName = "Acknowledgements", fluidPage( 
       HTML(
-        "<h2> Data Sources </h2>
-                <h4> <p><li>NYC Covid 19 Data: <a href='https://github.com/nychealth/coronavirus-data'>NYC covid 19 github database</a></li></h4>
-                <h4><li>NYC COVID-19 Policy : <a href='https://www1.nyc.gov/site/coronavirus/businesses/businesses-and-nonprofits.page' target='_blank'> NYC Citywide Information Portal</a></li></h4>
-                <h4><li>NYC Business data : <a href='https://data.cityofnewyork.us/Business/Legally-Operating-Businesses/w7w3-xahh' target='_blank'>NYC Open Data</a></li></h4>
-                <h4><li>NYC Business Application Data : <a href='https://data.cityofnewyork.us/Business/License-Applications/ptev-4hud' target='_blank'>NYC Open Data</a></li></h4>
-                <h4><li>NYC Minority Owned Business : <a href='https://data.cityofnewyork.us/Business/M-WBE-LBE-and-EBE-Certified-Business-List/ci93-uc8s' target='_blank'>NYC Health + Hospitals</a></li></h4>
-                <h4><li>NYC Geo Data : <a href='https://github.com/ResidentMario/geoplot-data-old' target='_blank'> Geoplot Github</a></li></h4>"
+        "<h2> Data Source </h2>
+                <h4> <p><li>NYC State Aid Application Data: <a href='https://data.cityofnewyork.us/Education/Application-for-State-Aid/8gpu-s594'>NYC OpenData</a></li></h4>"
       ),
       
-      titlePanel("Disclaimers "),
+      titlePanel("R Packages"),
       
-      HTML(
-        " <p>We drew our business insights from NYC Open data, specifically business expiration databases. We recognized that there would be a lag between when the business is closed and when the expiration date, status are updated.</p>",
-        " <p>Thus our app may understate the number of businesses that were actually closed. Furthermore, due to the lag between the time point where the business were closed, with when the expiration date be updated, there could be some uncertainty to define on which day, month the businesses were fully closed
- </p>"),
-      
-      titlePanel("Acknowledgement  "),
-      
-      HTML(
+HTML(
         " <p>This application is built using R shiny app.</p>",
         "<p>The following R packages were used in to build this RShiny application:</p>
-                <li>Shinytheme</li>
-                <li>Tidyverse</li>
-                <li>Dyplr</li><li>Tibble</li><li>Rcurl</li><li>Plotly</li>
-                <li>ggplot2</li>"
+          <li>leafpop</li>
+          <li>shinythemes</li>
+          <li>htmlTable</li>
+          <li>Tidyverse</li>
+          <li>leaflet</li>
+          <li>shinydashboard</li>
+          <li>sp</li>
+          <li>mapview</li>
+          <li>leafsync</li>
+          <li>ggmap</li>
+          <li>dplyr</li>
+          <li>eeptools</li>
+          <li>sf</li>
+          <li>tmap</li>
+          <li>rgdal</li>
+          <li>shiny</li>
+          <li>Rcurl</li>
+          <li>plotly</li>
+          <li>ggplot2</li>"
       ),
       
-      titlePanel("Contacts"),
+      titlePanel("Created By"),
       
       HTML(
-        " <p>For more information please feel free to contact</p>",
-        " <p>Wendy Doan(ad3801@columbia.edu) </p>",
-        " <p>Qizhen Yang(qy2446@columbia.edu)</p>",
-        " <p>Yandong Xiong(yx2659@columbia.edu) </p>",
-        " <p>TQiao Li(ql2403@columbia.edu)</p>",
-        " <p>James Smiley(jbs2253@columbia.edu) </p>")
+        " <p>This app was made in a collaborative effort by:</p>",
+        " <p>Jennings-Dobbs, Emily (emj2153@columbia.edu) </p>",
+        " <p>Liu, Chuyang (cl4013@columbia.edu)</p>",
+        " <p>Sun, Jialiang (js5951@columbia.edu) </p>",
+        " <p>Zhang, Ziyong (zz2893@columbia.edu)</p>")
     )) # end of tab
     
   ) # end of tab items
@@ -455,10 +458,10 @@ ui <- dashboardPage(
   dashboardHeader(title=span("Application for State Aid",style="font-size: 16px")),
   
   dashboardSidebar(sidebarMenu(
-    menuItem("Home", tabName = "Home"),
+    menuItem("Introduction", tabName = "Introduction"),
     menuItem("Map", tabName = "Map"),
-    menuItem("need change", tabName = "New_Business"),
-    menuItem("need change", tabName = "Appendix")
+    menuItem("Plot", tabName = "Plot"),
+    menuItem("Acknowledgements", tabName = "Acknowledgements")
   )),
   
   body 
