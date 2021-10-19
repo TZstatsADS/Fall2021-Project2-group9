@@ -1,0 +1,12 @@
+name: StateAid
+title: StateAid
+username:
+account: ejenningsdobbs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4910514
+bundleId: 5155830
+url: https://ejenningsdobbs.shinyapps.io/StateAid/
+when: 1634676950.21163
+asMultiple: FALSE
+asStatic: FALSE
