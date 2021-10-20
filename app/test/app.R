@@ -88,6 +88,10 @@ if (!require("viridis")) {
   install.packages("viridis")
   library(viridis)
 }
+if (!require("forcats")) {
+  install.packages("forcats")
+  library(forcats)
+}
 
 #--------------------------------------------------------------------
 
@@ -120,8 +124,33 @@ table(months.split)
 
 # COMBINE STEPS INTO A FUNCTION
 
-#View(app_data.sub1)
 
+#View(app_data.sub1)
+temp <- app_data %>%
+  drop_na(BOROUGH) %>%
+  mutate(BOROUGH = as.factor(BOROUGH)) 
+
+temp$BOROUGH <- fct_collapse(temp$BOROUGH,
+                             MANHATTAN = c("MANHATTAN", "1",  "Manhattan"),
+                             BRONX = c("BRONX", "Bronx", "2", "BRONX    "),
+                             BROOKLYN = c("BROOKLYN", "3", "Brooklyn"),
+                             QUEENS = c("QUEENS", "4", "QUEENS   ", "Queens" ),
+                             STATEN_ISLAND = c("STATEN IS", "5", "Staten Island"))
+
+temp <- temp %>%
+  group_by(modified_date, BOROUGH) %>%
+  mutate(count_per_BOROUGH = n()) %>%
+  mutate(SED.APPROVED.ESTIMATE_SUM = sum(SED.APPROVED.ESTIMATE))
+
+
+
+p <- temp %>%
+  ggplot( aes(x = modified_date, y = count_per_BOROUGH, size = SED.APPROVED.ESTIMATE_SUM, color=BOROUGH)) +
+  geom_point() +
+  ylab("Applications Submitted per Borough") +
+  xlab("Date of Application") +
+  ggtitle("Applications per Borough") +
+  theme_bw()
 
 
 
@@ -182,18 +211,11 @@ my.server <- function(input, output)
     
   })  # 
   
-  ## case_count
+
   
-    output$tsPlot0 <- renderPlot({
+    output$Plot0 <- renderPlot({
       
-      if(input$measure == "Case Count")
-      {
-        data = as.data.frame(table(app_data$year.split))
-        plot(num ~ as.Date(month), data, xaxt = "n", type = "o", pch = 22, lty = 1, pty = 2,
-             ylab = "monthly confirmed cases", xlab = "",
-             main = paste("Number of confirmed cases in ",  input$borough))
-        axis.Date(1, at = data$month, format= "%m-%Y", las = 1)
-      }
+      ggplotly(p)
       
     })
   
@@ -357,7 +379,7 @@ background-color: #154360;
                    tags$div(tags$ul(
                      tags$li("The", strong("first"), "tab: Introduction"),
                      tags$li("The", strong("second"), "tab: Two maps of NYC that can be used to compare details of all state applications for aid filed in a given time period."),
-                     tags$li("The", strong("third"), "tab: An interactive plot of frequency data"),
+                     tags$li("The", strong("third"), "tab: An interactive plot of frequency of applications and amount of money approved for each application per borough"),
                      tags$li("The", strong("fourth"), "tab: Acknowledgements and other information")
                    ))
       ))
@@ -368,40 +390,8 @@ background-color: #154360;
     ),
     
     #------------------Plot----------------------------
-    tabItem(tabName = "Plot", fluidPage(
-      
-      # App title ----
-      titlePanel("Plot"),
-      
-      # Sidebar layout with input and output definitions ----
-      sidebarLayout(
-        
-        # Sidebar panel for inputs ----
-        sidebarPanel(
-          
-          # Input: Select for the borough ----
-          selectInput(inputId = "measure",
-                      label = "Measure:",
-                      choices = c("Case Count", "Approved Estimate"),
-                      selected="Case Count"),
-          
-          # Input: Select for the business type ----
-          selectInput(inputId = "cal_type",
-                      label = "Calculation Type:",
-                      choices = c("Sum", "Average"),
-                      selected="Sum")
-          
-        ),
-        
-        # Main panel for displaying outputs ----
-        mainPanel(
-          
-          # Output: tsPlot on borough ----
-          plotOutput("tsPlot0")
-          
-        )
-      )
-    )
+    tabItem(tabName = "Plot", ggplotly(p)
+    
     ), 
     
     
