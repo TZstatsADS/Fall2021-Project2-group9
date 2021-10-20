@@ -10,13 +10,10 @@ if (!require("shinydashboard")) {
   install.packages("shinydashboard")
   library(shinydashboard)
 }
-
-
 if (!require("htmlTable")) {
   install.packages("htmlTable")
   library(htmlTable)
 }
-
 if (!require("leaflet.minicharts")) {
   install.packages("leaflet.minicharts")
   library(leaflet.minicharts)
@@ -47,7 +44,6 @@ if (!require("shinythemes")) {
   install.packages("shinythemes")
   library(shinythemes)
 }
-
 if (!require("sf")) {
   install.packages("sf")
   library(sf)
@@ -125,7 +121,7 @@ app_data$months.split <- months.split
 
 table(months.split)
 
-# COMBINE STEPS INTO A FUNCTION
+
 
 
 #View(app_data.sub1)
@@ -155,7 +151,7 @@ p <- temp %>%
   ggtitle("Applications per Borough") +
   theme_bw()
 
-
+# COMBINE STEPS INTO A FUNCTION
 
 ## SERVER 
 
@@ -205,12 +201,7 @@ my.server <- function(input, output)
       
     }
      
-    #latticeView(map1, map2, ncol = 2, sync = list(c(1, 2)), sync.cursor = FALSE, no.initial.sync = FALSE)
-    #plotMap( application = app_data.sub1 )
-    #title( main=toupper(paste(input$year1,sep=" : ")), line=-3, cex.main=1, col.main="white" )
-    #plotMap( application = app_data.sub2 )
-    #mapview::latticeView(map1, map2, ncol = 2, sync = list(c(1, 2)), sync.cursor = FALSE, no.initial.sync = FALSE)
-    #title( main=toupper(paste(input$year2,sep=" : ")), line=-3, cex.main=1, col.main="white" )
+
     
   })  # 
   
@@ -391,7 +382,7 @@ background-color: #154360;
                    )))),
       fluidRow(box(width = 15, title = "Note on Included Data", status = "primary",
                    h6("Any application data that did not specify the location related to the application had to be excluded from the data. For more information on the data visit NYC OpenData (link in acknowledgements tab)")))
-    )), # end of home 
+    )), # end of intro 
     # ------------------ Map-----------------------------------
     tabItem(tabName = "Map",my.ui
             
@@ -404,8 +395,8 @@ background-color: #154360;
     
     
     
-    # ------------------ Acknowledgements --------------------------------
-    tabItem(tabName = "Acknowledgements", fluidPage( 
+    # ------------------ Acknowledgments --------------------------------
+    tabItem(tabName = "Acknowledgments", fluidPage( 
       HTML(
         "<h2> Data Source </h2>
                 <h4> <p><li>NYC State Aid Application Data: <a href='https://data.cityofnewyork.us/Education/Application-for-State-Aid/8gpu-s594'>NYC OpenData</a></li></h4>"
@@ -459,7 +450,7 @@ ui <- dashboardPage(
     menuItem("Introduction", tabName = "Introduction"),
     menuItem("Map", tabName = "Map"),
     menuItem("Plot", tabName = "Plot"),
-    menuItem("Acknowledgements", tabName = "Acknowledgements")
+    menuItem("Acknowledgments", tabName = "Acknowledgments")
   )),
   
   body 
