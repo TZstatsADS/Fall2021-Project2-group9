@@ -92,7 +92,10 @@ if (!require("forcats")) {
   install.packages("forcats")
   library(forcats)
 }
-
+if (!require("tidyverse")) {
+  install.packages("tidyverse")
+  library(tidyverse)
+}
 #--------------------------------------------------------------------
 
 ##############################################################
@@ -127,6 +130,7 @@ table(months.split)
 
 #View(app_data.sub1)
 temp <- app_data %>%
+  filter(BOROUGH != "") %>%
   mutate(BOROUGH = as.factor(BOROUGH)) 
 
 temp$BOROUGH <- fct_collapse(temp$BOROUGH,
@@ -386,7 +390,7 @@ background-color: #154360;
                      tags$li("The", strong("fourth"), "tab: Acknowledgements and other information")
                    )))),
       fluidRow(box(width = 15, title = "Note on Included Data", status = "primary",
-                   h5("Any application data that did not specify the location related to the application had to be excluded from the data. For more information on the data visit NYC OpenData (link in acknowledgements tab)")))
+                   h6("Any application data that did not specify the location related to the application had to be excluded from the data. For more information on the data visit NYC OpenData (link in acknowledgements tab)")))
     )), # end of home 
     # ------------------ Map-----------------------------------
     tabItem(tabName = "Map",my.ui
