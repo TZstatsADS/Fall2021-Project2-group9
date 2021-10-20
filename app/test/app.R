@@ -127,7 +127,6 @@ table(months.split)
 
 #View(app_data.sub1)
 temp <- app_data %>%
-  drop_na(BOROUGH) %>%
   mutate(BOROUGH = as.factor(BOROUGH)) 
 
 temp$BOROUGH <- fct_collapse(temp$BOROUGH,
@@ -366,11 +365,15 @@ background-color: #154360;
                    solidHeader = TRUE, h3("An Interactive View of Applications for State Aid"),
                    h4("An Interface for Determining The Status of NYC Educational Facilities"),
                    h6("Created by : Emily Jennings-Dobbs, Chuyang Liu, Jialiang Sun, and Ziyong Zhang"),
-                   h6("Intended for use in:", strong("Education, goverment/legislative activity")))),
+                   h6("Intended for use in:", strong("Education, goverment/legislative activity, construction, retail")))),
       fluidRow(box(width = 15, title = "Intended Purpose", status = "primary", solidHeader=TRUE,
                    h5("General Applications:"),
                    h6("This app can display applications for aid for all educational facilities funded by the state in the NYC area. "),
                    h6( "It can be used to visualise the disruption and possible long term consequences of local or global disasters to the maitenance of educational facilities. This can help us to understand where aid is needed most geographically in the process of recovering from unpredictable and/or unexpected events."),
+                   h6("Other possible uses include but are not limited to:"),
+                   h6("Monitoring the locations of infrastructure in disrepair to maximize the returns of advertising for contstruction labor or equipment"),
+                   h6("Establishing which school districts have the most well-kept facilities for either real-estate or personal reasons"),
+                   h6("Determining what times of year will require more labor and equipment for maitenance or creation of educational facilities."),
                    h5("In Regards to COVID:"),
                    h6("During COVID a lot of schools were left empty and abandoned for months on end. Without constant maitenance and monitoring, facilities are bound to find themselves in disrepair. With this tool we can monitor where the worst of the damage was found and take a look at how long it's taking for the aid applications to return to a normal rate. "))),
       fluidRow(box(width = 15, title = "How to Use The App", status = "primary",
@@ -379,10 +382,11 @@ background-color: #154360;
                    tags$div(tags$ul(
                      tags$li("The", strong("first"), "tab: Introduction"),
                      tags$li("The", strong("second"), "tab: Two maps of NYC that can be used to compare details of all state applications for aid filed in a given time period."),
-                     tags$li("The", strong("third"), "tab: An interactive plot of frequency of applications and amount of money approved for each application per borough"),
+                     tags$li("The", strong("third"), "tab: An interactive plot of frequency of applications and amount of money approved for each application per borough. Hover over a specific point for more details."),
                      tags$li("The", strong("fourth"), "tab: Acknowledgements and other information")
-                   ))
-      ))
+                   )))),
+      fluidRow(box(width = 15, title = "Note on Included Data", status = "primary",
+                   h5("Any application data that did not specify the location related to the application had to be excluded from the data. For more information on the data visit NYC OpenData (link in acknowledgements tab)")))
     )), # end of home 
     # ------------------ Map-----------------------------------
     tabItem(tabName = "Map",my.ui
