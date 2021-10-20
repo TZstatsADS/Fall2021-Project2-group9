@@ -256,7 +256,7 @@ my.ui <- fluidPage(
   theme = shinytheme("paper"),
   
   # Application title
-  titlePanel("Application for State Aid"),
+  titlePanel("Applications for State Aid"),
   
   # Sidebar with a slider input for the number of bins
   sidebarLayout(
@@ -453,9 +453,9 @@ HTML(
 ) # end of body
 
 ui <- dashboardPage(
-  title="Application for State Aid",
+  title="Applications for State Aid",
   skin = "black", 
-  dashboardHeader(title=span("Application for State Aid",style="font-size: 16px")),
+  dashboardHeader(title=span("Applications for State Aid",style="font-size: 16px")),
   
   dashboardSidebar(sidebarMenu(
     menuItem("Introduction", tabName = "Introduction"),
